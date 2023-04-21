@@ -1,0 +1,55 @@
+User
+- id
+- username
+- email
+- password
+- name
+- is_organization (default=False)
+
+
+Hackathon
+- id
+- User (ForeignKey)
+- title
+- desc
+- bg_img
+- hackathon_img
+- type_of_submission (Choices:[image, file, link])
+- start_datetime
+- end_datetime
+- reward_prize
+
+
+HackathonRegistration
+- id
+- User (ForeignKey)
+- Hackathon (ForeignKey)
+- registration_data (JSONField)
+- registration_datetime
+- submission_status (default=False)
+
+
+HackathonSubmission
+- id
+- User (ForeignKey)
+- HackathonRegistration (ForeignKey)
+- name
+- summary
+- type (Validate Choice: [image, file, link])
+- submission
+- submission_datetime
+- is_favourite (Default=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+POST - accounts/register/ - Register new user
+POST - accounts/login/ - Login user
+
+
+POST - hackathons/hackathon/ - Create new hackathon
+GET - hackathons/hackathon/?hackathon_name - List all hackathons
+GET - hackathons/hackathon/:id/ - Retrieve particular hackathon
+PATCH - hackathons/hackathon/:id/ - Edit Hackathon details
+DELETE - hackathons/hackathon/:id/ - Delete hackathon
+
+
+POST - registrations/register_hackathon/ - register to a hackathon
+GET - registrations/hackathon_registration/?hackathon_name - list of all the registrations
+GET - registrations/hackathon_registration/:id/ - Retrieve a particular registration (id=HackathonRegistrion.id)
+PATCH - registrations/hackathon_registration/:id/ - Update hackathon registration
+DELETE - registrations/hackathon_registration/:id/ - Delete hackathon registration
+GET - registrations/user_registrations/ - List all hackathons the logged in user is enrolled to
+GET - registrations/user_registrations/:id/ - Retrieve a particular of registration of the logged in user (id=HackathonRegistrion.id)
+
+
+POST - submissions/submit/ - submit new hackathon submission
+GET - submissions/submissions/?hackathon_name - List of all the submissions
+GET - submissions/user_submissions/?hackathon_name - List of all the submissions user did
+PATCH - submissions/user_submissions/:id/ - user can edit the submission
+DELETE - submissions/user_submissions/:id/ - Delete user's submission
+
+
+
+
