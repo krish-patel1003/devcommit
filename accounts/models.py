@@ -1,10 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from accounts.managers import UserManager
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     '''
     Custom AUTH_USER_MODEL.
     '''
