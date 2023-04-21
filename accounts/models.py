@@ -14,7 +14,6 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=255)
     is_organization = models.BooleanField(default=False)
 
-    
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -25,7 +24,7 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         '''
-        returns a string - "<username>."
+        returns a string - "<username>".
         '''
         
         return self.username
