@@ -15,8 +15,8 @@ class Hackathon(models.Model):
         ('LINK', 'Link')
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255, null=False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, null=False, unique=True)
     description = models.TextField(blank=True)
     background_image = models.ImageField(
         default='default/no_image.jpg', upload_to=hackathon_image_path(image_type="bg"), max_length=255)

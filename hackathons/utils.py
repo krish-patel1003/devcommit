@@ -14,3 +14,11 @@ def hackathon_image_path(image_type):
     
     else:
         raise ValueError("image type invalid")
+
+
+def convert_datetime_to_str(datetime):
+    '''
+    returns datetime object converted in string format 
+    '''
+
+    return datetime.strftime("%Y-%m-%d %H:%M:%S")
