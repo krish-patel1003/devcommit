@@ -23,6 +23,7 @@ class Hackathon(models.Model):
     hackathon_image = models.ImageField(
         default='default/no_image.jpg', upload_to=hackathon_image_path(image_type="hack"), max_length=255)
     type_of_submission = models.CharField(choices=SUBMISSION_TYPES, max_length=4, default="LINK")
+    registration_deadline = models.DateTimeField(null=True, blank=True)
     start_datetime = models.DateTimeField(null=False)
     end_datetime = models.DateTimeField(null=False)
     reward_prize = models.CharField(max_length=255)

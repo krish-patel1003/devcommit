@@ -27,6 +27,7 @@ HackathonRegistration
 - registration_data (JSONField)
 - registration_datetime
 - submission_status (default=False)
+- submission_id (default=null)
 
 
 HackathonSubmission

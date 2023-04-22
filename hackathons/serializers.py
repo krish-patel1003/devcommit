@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from hackathons.models import Hackathon
 from datetime import datetime
+from hackathons.utils import convert_datetime_to_str
+
 
 class HackathonSerializer(serializers.ModelSerializer):
     '''
@@ -9,6 +11,7 @@ class HackathonSerializer(serializers.ModelSerializer):
 
 
     username = serializers.CharField(source='user_id.username',read_only=True)
+    registration_deadline = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", input_formats=["%Y-%m-%d %H:%M:%S"])
     start_datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", input_formats=["%Y-%m-%d %H:%M:%S"])
     end_datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", input_formats=["%Y-%m-%d %H:%M:%S"])
 
@@ -22,6 +25,7 @@ class HackathonSerializer(serializers.ModelSerializer):
             'background_image', 
             'hackathon_image', 
             'type_of_submission',
+            'registration_deadline',
             'start_datetime',
             'end_datetime',
             'reward_prize',
@@ -36,6 +40,7 @@ class HackathonSerializer(serializers.ModelSerializer):
         type_of_submission = attrs.get('type_of_submission', None)
         start_datetime = attrs.get('start_datetime', None)
         end_datetime = attrs.get('end_datetime', None)
+        registration_deadline = attrs.get('registration_deadline', None)
 
         SUBMISSION_TYPES = ['IMG', 'LINK', 'FILE']
 
@@ -50,9 +55,13 @@ class HackathonSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Invalid start_datetime and end_datetime. It should follow (end_datetime > start_datetime).")
         
-        if start_datetime and start_datetime.__str__() < datetime.now().strftime("%Y-%m-%d %H:%M:%S"):
+        if start_datetime and convert_datetime_to_str(start_datetime) < convert_datetime_to_str(datetime.now()):
             raise serializers.ValidationError(
                 "Invalid start_datetime, start_datetime cannot be before hackathon creation datetime.")
+
+        if registration_deadline and (registration_deadline > start_datetime):
+            raise serializers.ValidationError(
+                "Invalid registration_deadline, registration date should be less then or equal to start_datetime")
         
 
         return attrs

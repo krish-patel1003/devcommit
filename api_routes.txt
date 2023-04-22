@@ -9,13 +9,13 @@ PATCH - hackathons/:id/ - Edit Hackathon details
 DELETE - hackathons/:id/ - Delete hackathon
 
 
-POST - registrations/hackathon_registration/ - register to a hackathon
-GET - registrations/hackathon_registration/?hackathon_name - list of all the registrations
-GET - registrations/hackathon_registration/:id/ - Retrieve a particular registration (id=HackathonRegistrion.id)
-PATCH - registrations/hackathon_registration/:id/ - Update hackathon registration
-DELETE - registrations/hackathon_registration/:id/ - Delete hackathon registration
-GET - registrations/user_registrations/ - List all hackathons the logged in user is enrolled to
-GET - registrations/user_registrations/:id/ - Retrieve a particular of registration of the logged in user (id=HackathonRegistrion.id)
+POST - enrollments/hackathon_registration/ - register to a hackathon
+GET - enrollments/hackathon_registration/?hackathon_name - list of all the enrollments
+GET - enrollments/hackathon_registration/:id/ - Retrieve a particular registration (id=HackathonRegistrion.id)
+DELETE - enrollments/hackathon_registration/:id/ - Delete hackathon enrollment
+GET - enrollments/user_enrollments/ - List all hackathons the logged in user is enrolled to
+GET - enrollments/user_enrollments/:id/ - Retrieve a particular of registration,
+ of the logged in user (id=HackathonRegistrion.id)
 
 
 POST - submissions/submit/ - submit new hackathon submission
