@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'accounts',
     'hackathons',
     'enrollments',
+    'submissions'
 ]
 
 MIDDLEWARE = [

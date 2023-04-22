@@ -20,10 +20,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
-    path('hackathons/', include('hackathons.urls')),
-    path('enrollments/', include('enrollments.urls'))
+    path('api/admin/', admin.site.urls),
+    path('api/accounts/', include('accounts.urls')),
+    path('api/hackathons/', include('hackathons.urls')),
+    path('api/enrollments/', include('enrollments.urls')),
+    path('api/submissions/', include('submissions.urls'))
 ]
 
 if settings.DEBUG:

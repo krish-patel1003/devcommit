@@ -15,6 +15,7 @@ Hackathon
 - bg_img
 - hackathon_img
 - type_of_submission (Choices:[image, file, link])
+- registration_deadline
 - start_datetime
 - end_datetime
 - reward_prize
