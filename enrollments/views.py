@@ -28,7 +28,7 @@ class EnrollmentViewSet(ModelViewSet):
             return Response(
                 {
                     "data": serializer.data, 
-                    "message": f"enrolled to hackathon, {serializer.validated_data['hackathon']}"
+                    "message": f"enrolled to hackathon, {serializer.data['hackathon']}"
                 }, 
                 status=status.HTTP_201_CREATED
             )
@@ -42,7 +42,7 @@ class EnrollmentViewSet(ModelViewSet):
             queryset = self.queryset.filter(hackathon_id__user_id=user).order_by('-registration_datetime')
         else:
             queryset = self.queryset.filter(user_id=user).order_by('-registration_datetime')
-        serializer = self.serializer_class(queryset=queryset, many=True)
+        serializer = self.serializer_class(queryset, many=True)
 
         return Response(
             {"data": serializer.data, "message": "List of all the enrollment to the hackathons"}, 

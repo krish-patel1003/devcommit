@@ -9,6 +9,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
 
     username = serializers.CharField(source='user_id.username',read_only=True)
     hackathon = serializers.CharField(source='hackathon_id.title',read_only=True)
+    registration_data = serializers.JSONField()
 
     class Meta:
         model = Enrollment
@@ -21,8 +22,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
             'registration_datetime',
             'submission_status'
         )
-        extra_kwargs = {
-            'registration_data': {'read_only':True}, 
+        extra_kwargs = { 
             'submission_status': {'read_only':True}
         }
 

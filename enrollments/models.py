@@ -10,12 +10,12 @@ class Enrollment(models.Model):
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     hackathon_id = models.ForeignKey(Hackathon, on_delete=models.CASCADE)
-    registration_data = models.JSONField(default=dict)
+    registration_data = models.JSONField(default=dict, null=True)
     registration_datetime = models.DateTimeField(auto_now_add=True)
     submission_status = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f"{self.user} - {self.hackathon.title}"
+        return f"{self.user_id} - {self.hackathon_id.title}"
     
 
 
