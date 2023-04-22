@@ -4,7 +4,7 @@ from enrollments.views import EnrollmentViewSet
 
 router = SimpleRouter()
 
-router.register('hackathon_registration', EnrollmentViewSet)
+router.register('', EnrollmentViewSet)
 
 urlpatterns = [
     path(r'', include(router.urls))

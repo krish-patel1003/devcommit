@@ -12,7 +12,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Enrollment
-        field = (
+        fields = (
             'id',
             'username',
             'hackathon_id',

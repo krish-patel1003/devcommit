@@ -13,9 +13,6 @@ POST - enrollments/hackathon_registration/ - register to a hackathon
 GET - enrollments/hackathon_registration/?hackathon_name - list of all the enrollments
 GET - enrollments/hackathon_registration/:id/ - Retrieve a particular registration (id=HackathonRegistrion.id)
 DELETE - enrollments/hackathon_registration/:id/ - Delete hackathon enrollment
-GET - enrollments/user_enrollments/ - List all hackathons the logged in user is enrolled to
-GET - enrollments/user_enrollments/:id/ - Retrieve a particular of registration,
- of the logged in user (id=HackathonRegistrion.id)
 
 
 POST - submissions/submit/ - submit new hackathon submission

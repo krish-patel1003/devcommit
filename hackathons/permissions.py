@@ -1,5 +1,4 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-from accounts.models import User
 
 
 class IsOrganizationOrReadOnly(BasePermission):
@@ -8,37 +7,38 @@ class IsOrganizationOrReadOnly(BasePermission):
     the user performing a particular action is a Organization or not
     '''
 
-    message = "User if only create, update, or delete a hackathon, if it is a organization"
+    message = "User can only create, update, or delete a hackathon, if it is a organization"
 
     def has_permission(self, request, view):
         
-        if request.method == "POST":
-            print("checking post request perm")
+        if view.action in ["create"]:
+            print("1")
+
             if not request.user.is_organization:
-                self.message = "Logged in user is not a organization"
+                self.message = "Logged in user is not an organization"
                 return False
             
             if "username" in list(request.data.keys()):
-                if not request.user.username == request.data['username']:
+                if not (request.user.username == request.data['username']):
                     self.message = "Logged in user and input user do not match"
-                    return True
-                else:
                     return False
-            
-            return request.user.is_organization
-        
-        if request.method in SAFE_METHODS:
+                else:
+                    return True
+                
             return True
-
-        return request.user.is_organization
+        
+        return True
+    
 
     def has_object_permission(self, request, view, obj):
         
-        if request.method in SAFE_METHODS:
-            return True
-        if request in ["PUT", "PATCH", "DELETE"]:
+        if view.action in ["partial_update", "update", "destroy"]:
+            self.message = "Logged in user is not the Hackathon organizer"
             return obj.user_id == request.user
 
+        if view.action in ["list", "retrieve"]:
+            return True
+        
         return False
         
 

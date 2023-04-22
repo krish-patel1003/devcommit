@@ -49,7 +49,7 @@ class HackathonViewSet(ModelViewSet):
         '''
 
         data = request.data
-        hackathon = Hackathon.objects.get(id=kwargs['pk'])
+        hackathon = self.get_object()
         start_datetime = convert_datetime_to_str(hackathon.start_datetime)
         end_datetime = convert_datetime_to_str(hackathon.end_datetime)
 
