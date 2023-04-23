@@ -57,10 +57,15 @@ class SubmissionViewSet(ModelViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            serializer.save(user_id=request.user)
+            enrollment = Enrollment.objects.get(user_id=user, hackathon_id=data['hackathon_id'])
+
+            serializer.save(user_id=user, enrollment_id=enrollment)
+
+            enrollment.submission_status = True
+            enrollment.save()
             return Response(
                 {
-                    "data": serializer.data, 
+                    "data": serializer.data,
                     "message": f"enrolled to hackathon, {serializer.data['hackathon']}"
                 }, 
                 status=status.HTTP_201_CREATED

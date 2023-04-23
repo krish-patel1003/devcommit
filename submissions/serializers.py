@@ -57,9 +57,6 @@ class SubmissionSerializer(serializers.ModelSerializer):
             if type_of_submission == "IMG":
                 if image_submission or file_submission:
                     raise serializers.ValidationError("Type of  is IMG, link and file not allowed")
-
-        else:
-            raise serializers.ValidationError("type_of_submission, not rendered")   
         
         return attrs
 
@@ -67,16 +64,16 @@ class SubmissionSerializer(serializers.ModelSerializer):
                 
     def create(self, validated_data):
 
-        hackathon = Hackathon.objects.get(id=validated_data['hackathon_id'])
-        start_datetime = hackathon.start_datetime
-        end_datetime = hackathon.end_datetime
-        submission_datetime = validated_data['submission_datetime']
+        hackathon = validated_data['hackathon_id']
+        start_datetime = convert_datetime_to_str(hackathon.start_datetime)
+        end_datetime = convert_datetime_to_str(hackathon.end_datetime)
+        current_datetime_str = convert_datetime_to_str(datetime.now())
 
-        if submission_datetime > end_datetime:
+        if current_datetime_str > end_datetime:
             raise serializers.ValidationError(
                 "Hackathon has ended, new submission cannot be made.")
         
-        if submission_datetime < start_datetime:
+        if current_datetime_str < start_datetime:
             raise serializers.ValidationError(
                 "Hackathon has not started yet, new submission cannot be made.")
 
