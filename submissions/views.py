@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from enrollments.models import Enrollment
 from submissions.models import Submission
 from submissions.serializers import SubmissionSerializer
 from submissions.permissions import IsUserOwnerOrReadOnly
@@ -39,9 +40,23 @@ class SubmissionViewSet(ModelViewSet):
         '''
 
         data = request.data
+        user = request.user
         serializer = self.serializer_class(data=data)
-        
+       
         if serializer.is_valid():
+
+            if not Enrollment.objects.filter(user_id=user, hackathon_id=data['hackathon_id']).exists():
+                return Response(
+                    {"error": "Logged in user is not enrolled to the hackathon, cannot submit without enrollment"}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            if Submission.objects.filter(user_id=user, hackathon_id=data['hackathon_id']).exists():
+                return Response(
+                    {"error": "You have already made the submission, cannot create new"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
             serializer.save(user_id=request.user)
             return Response(
                 {

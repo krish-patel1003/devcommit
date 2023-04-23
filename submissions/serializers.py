@@ -20,6 +20,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
             'id',
             'username',
             'hackathon',
+            'hackathon_id',
             'enrollment_id',
             'project_name',
             'summary',
@@ -39,7 +40,6 @@ class SubmissionSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
 
-        enrollment_id = attrs.get('')
         type_of_submission = attrs.get('type_of_submission', None)
         image_submission = attrs.get('image_submission', None)
         file_submission = attrs.get('file_submission', None)
