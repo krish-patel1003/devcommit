@@ -22,5 +22,7 @@ PATCH - submissions/user_submissions/:id/ - user can edit the submission
 DELETE - submissions/user_submissions/:id/ - Delete user's submission
 
 
+request.user > if enrolled > no new enrollment
+request.user > enrolled > hackathon > submt
 
 

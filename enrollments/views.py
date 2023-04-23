@@ -2,6 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from hackathons.models import Hackathon
 from enrollments.models import Enrollment
 from enrollments.serializers import EnrollmentSerializer
 from enrollments.permissions import EnrollmentPermissions
@@ -22,9 +23,18 @@ class EnrollmentViewSet(ModelViewSet):
         '''
 
         data = request.data
+        user = request.user
+
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
-            serializer.save(user_id=request.user)
+            
+            if Enrollment.objects.filter(user_id=user, hackathon_id=data['hackathon_id']).exists():
+                return Response(
+                    {"error": "Logged in user has already enrolled to the hackathon"}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            serializer.save(user_id=user)
             return Response(
                 {
                     "data": serializer.data, 
