@@ -1,8 +1,13 @@
 
+
 # DEVCOMMIT
 
 
 
+## Documentation
+**Link:** https://documenter.getpostman.com/view/26223290/2s93Y5NzDE
+
+This postman documentation has a **"Run in Postman"** button on top right, using which the APIs can be directly tested in postman.
 ## Run Locally
 
 Clone the project
@@ -31,4 +36,6 @@ Start the server
   python manage.py collectstatic
   python manage.py runserver
 ```
+
+
 
