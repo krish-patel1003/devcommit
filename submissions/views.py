@@ -28,6 +28,8 @@ class SubmissionViewSet(ModelViewSet):
             queryset = self.queryset.filter(hackathon_id__user_id=user).order_by('-submission_datetime')
         else:
             queryset = self.queryset.filter(user_id=user).order_by('-submission_datetime')
+
+        queryset = self.filter_queryset(queryset)
         serializer = self.serializer_class(queryset, many=True)
 
         return Response(
