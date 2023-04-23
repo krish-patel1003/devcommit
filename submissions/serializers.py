@@ -36,27 +36,37 @@ class SubmissionSerializer(serializers.ModelSerializer):
             'submission_datetime': {'read_only':True},
             'enrollment_id': {'read_only': True}
         }
+    
+
+    def validate_submission_type(self, type_of_submission, data):
+
+        image_submission = data.get('image_submission', None)
+        file_submission = data.get('file_submission', None)
+        link_submission = data.get('link_submission', None)
+
+        if type_of_submission == "LINK":
+            if image_submission or file_submission:
+                raise serializers.ValidationError("Type of submission is LINK, image and file not allowed")
+        
+        elif type_of_submission == "FILE":
+            if image_submission or link_submission:
+                raise serializers.ValidationError("Type of submission is FILE, image and link not allowed")
+        
+        elif type_of_submission == "IMG":
+            if link_submission or file_submission:
+                raise serializers.ValidationError("Type of  is IMG, link and file not allowed")
+        
+        return True
+
 
 
     def validate(self, attrs):
 
         type_of_submission = attrs.get('type_of_submission', None)
-        image_submission = attrs.get('image_submission', None)
-        file_submission = attrs.get('file_submission', None)
-        link_submission = attrs.get('link_submission', None)
 
-        if type_of_submission:
-            if type_of_submission == "LINK":
-                if image_submission or file_submission:
-                    raise serializers.ValidationError("Type of submission is LINK, image and file not allowed")
-            
-            if type_of_submission == "FILE":
-                if image_submission or link_submission:
-                    raise serializers.ValidationError("Type of submission is FILE, image and link not allowed")
-            
-            if type_of_submission == "IMG":
-                if image_submission or file_submission:
-                    raise serializers.ValidationError("Type of  is IMG, link and file not allowed")
+        if not self.validate_submission_type(type_of_submission, attrs):
+        
+            raise serializers.ValidationError("Invalid type_of_submission")
         
         return attrs
 
@@ -68,6 +78,12 @@ class SubmissionSerializer(serializers.ModelSerializer):
         start_datetime = convert_datetime_to_str(hackathon.start_datetime)
         end_datetime = convert_datetime_to_str(hackathon.end_datetime)
         current_datetime_str = convert_datetime_to_str(datetime.now())
+
+        type_of_submission = hackathon.type_of_submission
+        validated_data['type_of_submission'] = type_of_submission
+
+        if not self.validate_submission_type(type_of_submission, validated_data):
+            raise serializers.ValidationError("submission type invalid")
 
         if current_datetime_str > end_datetime:
             raise serializers.ValidationError(

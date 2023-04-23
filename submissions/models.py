@@ -26,11 +26,6 @@ class Submission(models.Model):
 
     def __str__(self):
         return f"{self.user_id} - {self.hackathon.title} - {self.project_name}"
-
-    def save(self, *args, **kwargs):
-        type_of_submission = self.hackathon_id.type_of_submission
-        self.type_of_submission = type_of_submission
-        super().save(*args, **kwargs)  
     
     
 
