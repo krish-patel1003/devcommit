@@ -22,6 +22,8 @@ class HackathonViewSet(ModelViewSet):
     serializer_class = HackathonSerializer  
     queryset = Hackathon.objects.all()
     permission_classes = (IsAuthenticated, IsOrganizationOrReadOnly, )
+    filterset_fields = ["title"]
+    ordering_fields = ["start_datetime"]
 
 
     def create(self, request, *args, **kwargs):

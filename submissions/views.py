@@ -17,6 +17,8 @@ class SubmissionViewSet(ModelViewSet):
     serializer_class = SubmissionSerializer
     queryset = Submission.objects.all()
     permission_classes = (IsAuthenticated, IsUserOwnerOrReadOnly)
+    filterset_fields = ["is_favourite"]
+    ordering_fields = ["submission_datetime"]
 
 
     def list(self, request, *args, **kwargs):
