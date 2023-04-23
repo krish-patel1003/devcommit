@@ -11,6 +11,7 @@ class RegisterAPIView(GenericAPIView):
     '''
 
     serializer_class = RegisterSerializer
+    authentication_classes = []
 
     def post(self, request):
 
@@ -33,6 +34,7 @@ class LoginAPIView(GenericAPIView):
     '''
         
     serializer_class = LoginSerializer
+    authentication_classes = []
 
     def post(self, request):
         user = request.data
