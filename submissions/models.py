@@ -11,7 +11,7 @@ class Submission(models.Model):
     '''
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    hackathon = models.ForeignKey(Hackathon, on_delete=models.CASCADE)
+    hackathon_id = models.ForeignKey(Hackathon, on_delete=models.CASCADE)
     enrollment_id = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     project_name = models.CharField(max_length=255, null=False, blank=False)
     summary = models.TextField(null=False, blank=False)
@@ -26,6 +26,11 @@ class Submission(models.Model):
 
     def __str__(self):
         return f"{self.user_id} - {self.hackathon.title} - {self.project_name}"
+
+    def save(self, *args, **kwargs):
+        type_of_submission = self.hackathon_id.type_of_submission
+        self.type_of_submission = type_of_submission
+        super().save(*args, **kwargs)  
     
     
 

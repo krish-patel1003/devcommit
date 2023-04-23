@@ -1,3 +1,54 @@
 from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from submissions.models import Submission
+from submissions.serializers import SubmissionSerializer
+from submissions.permissions import IsUserOwnerOrReadOnly
 
-# Create your views here.
+
+class SubmissionViewSet(ModelViewSet):
+    '''
+    Submission view set - handles POST, GET, PATCH, DELETE requests for submissions
+    '''
+
+    serializer_class = SubmissionSerializer
+    queryset = Submission.objects.all()
+    permission_classes = (IsAuthenticated, IsUserOwnerOrReadOnly)
+
+
+    def list(self, request, *args, **kwargs):
+        
+        user = request.user
+        if user.is_organization:
+            queryset = self.queryset.filter(hackathon_id__user_id=user).order_by('-submission_datetime')
+        else:
+            queryset = self.queryset.filter(user_id=user).order_by('-submission_datetime')
+        serializer = self.serializer_class(queryset, many=True)
+
+        return Response(
+            {"data": serializer.data, "message": "List of all the submissions to hackathon"}, 
+            status=status.HTTP_200_OK
+        )
+
+
+    def create(self, request, *args, **kwargs):
+        '''
+        create method handles submission to a hackathon
+        '''
+
+        data = request.data
+        serializer = self.serializer_class(data=data)
+        
+        if serializer.is_valid():
+            serializer.save(user_id=request.user)
+            return Response(
+                {
+                    "data": serializer.data, 
+                    "message": f"enrolled to hackathon, {serializer.data['hackathon']}"
+                }, 
+                status=status.HTTP_201_CREATED
+            )
+        
+        return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

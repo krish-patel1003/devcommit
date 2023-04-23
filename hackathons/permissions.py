@@ -12,7 +12,6 @@ class IsOrganizationOrReadOnly(BasePermission):
     def has_permission(self, request, view):
         
         if view.action in ["create"]:
-            print("1")
 
             if not request.user.is_organization:
                 self.message = "Logged in user is not an organization"
