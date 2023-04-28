@@ -35,7 +35,7 @@ class IsUserOwnerOrReadOnly(BasePermission):
        
         if view.action in ['destroy', 'partial_update', 'update']:
             self.message = "user should be the submission owner to edit it."
-            return request.user == obj.user_id
+            return request.user == obj.user
         
         if view.action in ['retrieve', 'list']: 
             return True

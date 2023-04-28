@@ -10,8 +10,8 @@ class SubmissionSerializer(serializers.ModelSerializer):
     Submission serializer
     '''
 
-    username = serializers.CharField(source='user_id.username',read_only=True)
-    hackathon = serializers.CharField(source='hackathon_id.title',read_only=True)
+    username = serializers.CharField(source='user.username',read_only=True)
+    hackathon_title = serializers.CharField(source='hackathon.title',read_only=True)
 
 
     class Meta:
@@ -19,9 +19,9 @@ class SubmissionSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'username',
+            'hackathon_title',
             'hackathon',
-            'hackathon_id',
-            'enrollment_id',
+            'enrollment',
             'project_name',
             'summary',
             'type_of_submission',
@@ -34,7 +34,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'type_of_submission': {'read_only':True},
             'submission_datetime': {'read_only':True},
-            'enrollment_id': {'read_only': True}
+            'enrollment': {'read_only': True}
         }
     
 
@@ -74,7 +74,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
                 
     def create(self, validated_data):
 
-        hackathon = validated_data['hackathon_id']
+        hackathon = validated_data['hackathon']
         start_datetime = convert_datetime_to_str(hackathon.start_datetime)
         end_datetime = convert_datetime_to_str(hackathon.end_datetime)
         current_datetime_str = convert_datetime_to_str(datetime.now())

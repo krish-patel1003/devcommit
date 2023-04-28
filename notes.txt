@@ -1,0 +1,4 @@
+- change referenced column names (removed _id because already added by database)
+- user limit_choices_to attribute to foreign key in Hackathon model
+- use related_name to query backwards
+- 

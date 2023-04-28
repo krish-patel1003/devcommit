@@ -28,13 +28,13 @@ class EnrollmentViewSet(ModelViewSet):
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             
-            if Enrollment.objects.filter(user_id=user, hackathon_id=data['hackathon_id']).exists():
+            if Enrollment.objects.filter(user=user, hackathon=data['hackathon']).exists():
                 return Response(
                     {"error": "Logged in user has already enrolled to the hackathon"}, 
                     status=status.HTTP_400_BAD_REQUEST
                 )
             
-            serializer.save(user_id=user)
+            serializer.save(user=user)
             return Response(
                 {
                     "data": serializer.data, 
@@ -49,9 +49,9 @@ class EnrollmentViewSet(ModelViewSet):
         
         user = request.user
         if user.is_organization:
-            queryset = self.queryset.filter(hackathon_id__user_id=user).order_by('-registration_datetime')
+            queryset = self.queryset.filter(hackathon__organization=user).order_by('-registration_datetime')
         else:
-            queryset = self.queryset.filter(user_id=user).order_by('-registration_datetime')
+            queryset = self.queryset.filter(user=user).order_by('-registration_datetime')
         serializer = self.serializer_class(queryset, many=True)
 
         return Response(

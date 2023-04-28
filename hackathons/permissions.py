@@ -33,7 +33,7 @@ class IsOrganizationOrReadOnly(BasePermission):
         
         if view.action in ["partial_update", "update", "destroy"]:
             self.message = "Logged in user is not the Hackathon organizer"
-            return obj.user_id == request.user
+            return obj.organization == request.user
 
         if view.action in ["list", "retrieve"]:
             return True

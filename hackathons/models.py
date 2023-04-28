@@ -15,7 +15,7 @@ class Hackathon(models.Model):
         ('LINK', 'Link')
     ]
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, null=False, unique=True)
     description = models.TextField(blank=True)
     background_image = models.ImageField(

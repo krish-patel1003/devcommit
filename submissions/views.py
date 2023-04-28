@@ -25,9 +25,9 @@ class SubmissionViewSet(ModelViewSet):
         
         user = request.user
         if user.is_organization:
-            queryset = self.queryset.filter(hackathon_id__user_id=user).order_by('-submission_datetime')
+            queryset = self.queryset.filter(hackathon__organization=user).order_by('-submission_datetime')
         else:
-            queryset = self.queryset.filter(user_id=user).order_by('-submission_datetime')
+            queryset = self.queryset.filter(user=user).order_by('-submission_datetime')
 
         queryset = self.filter_queryset(queryset)
         serializer = self.serializer_class(queryset, many=True)
@@ -49,21 +49,21 @@ class SubmissionViewSet(ModelViewSet):
        
         if serializer.is_valid():
 
-            if not Enrollment.objects.filter(user_id=user, hackathon_id=data['hackathon_id']).exists():
+            if not Enrollment.objects.filter(user=user, hackathon=data['hackathon']).exists():
                 return Response(
                     {"error": "Logged in user is not enrolled to the hackathon, cannot submit without enrollment"}, 
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            if Submission.objects.filter(user_id=user, hackathon_id=data['hackathon_id']).exists():
+            if Submission.objects.filter(user=user, hackathon=data['hackathon']).exists():
                 return Response(
                     {"error": "You have already made the submission, cannot create new"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            enrollment = Enrollment.objects.get(user_id=user, hackathon_id=data['hackathon_id'])
+            enrollment = Enrollment.objects.get(user=user, hackathon=data['hackathon'])
 
-            serializer.save(user_id=user, enrollment_id=enrollment)
+            serializer.save(user=user, enrollment=enrollment)
 
             enrollment.submission_status = True
             enrollment.save()

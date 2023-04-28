@@ -34,7 +34,7 @@ class HackathonViewSet(ModelViewSet):
         data = request.data
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
-            serializer.save(user_id=request.user)
+            serializer.save(organization=request.user)
             return Response(
                 {"data": serializer.data, "message": "New Hackathon created!"}, 
                 status=status.HTTP_201_CREATED

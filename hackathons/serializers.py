@@ -10,7 +10,7 @@ class HackathonSerializer(serializers.ModelSerializer):
     '''
 
 
-    username = serializers.CharField(source='user_id.username',read_only=True)
+    username = serializers.CharField(source='organization.username',read_only=True)
     registration_deadline = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", input_formats=["%Y-%m-%d %H:%M:%S"])
     start_datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", input_formats=["%Y-%m-%d %H:%M:%S"])
     end_datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", input_formats=["%Y-%m-%d %H:%M:%S"])

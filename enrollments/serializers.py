@@ -9,8 +9,8 @@ class EnrollmentSerializer(serializers.ModelSerializer):
     Enrollment serializer 
     '''
 
-    username = serializers.CharField(source='user_id.username',read_only=True)
-    hackathon = serializers.CharField(source='hackathon_id.title',read_only=True)
+    username = serializers.CharField(source='user.username',read_only=True)
+    hackathon_title = serializers.CharField(source='hackathon.title',read_only=True)
     registration_data = serializers.JSONField()
 
     class Meta:
@@ -18,8 +18,8 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'username',
-            'hackathon_id',
             'hackathon',
+            'hackathon_title',
             'registration_data',
             'registration_datetime',
             'submission_status'
@@ -30,7 +30,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         
-        hackathon = validated_data['hackathon_id']
+        hackathon = validated_data['hackathon']
         registration_deadline = hackathon.registration_deadline
 
         if convert_datetime_to_str(registration_deadline) < convert_datetime_to_str(datetime.now()):

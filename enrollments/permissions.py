@@ -32,7 +32,7 @@ class EnrollmentPermissions(BasePermission):
         
         if view.action in ['retrieve', 'destroy']:
             self.message = "You should be enrolled user, or the hackathon organizer to permform this action."
-            return request.user == obj.user_id or request.user == obj.hackathon_id.user_id
+            return request.user == obj.user or request.user == obj.hackathon.organization
         
         if view.action in ['list']:
             return True
