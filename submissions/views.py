@@ -46,6 +46,7 @@ class SubmissionViewSet(ModelViewSet):
         data = request.data
         user = request.user
         serializer = self.serializer_class(data=data)
+        print(type(data.get("submission")))
        
         if serializer.is_valid():
 

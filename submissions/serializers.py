@@ -1,8 +1,13 @@
 from rest_framework import serializers
+
 from hackathons.models import Hackathon
 from submissions.models import Submission
 from datetime import datetime
 from hackathons.utils import convert_datetime_to_str
+from submissions.utils import hackathon_submission_image_path
+
+IMG_SUBMISSION_PATH = hackathon_submission_image_path("image")
+FILE_SUBMISSION_PATH = hackathon_submission_image_path("file")
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
@@ -24,56 +29,20 @@ class SubmissionSerializer(serializers.ModelSerializer):
             'enrollment',
             'project_name',
             'summary',
-            'type_of_submission',
-            'image_submission',
-            'file_submission',
-            'link_submission',
+            'submission_type',
+            'submission',
             'submission_datetime',
             'is_favourite'
         )
         extra_kwargs = {
-            'type_of_submission': {'read_only':True},
+            'submission_type': {'read_only':True},
             'submission_datetime': {'read_only':True},
             'enrollment': {'read_only': True}
         }
     
-
-    def validate_submission_type(self, type_of_submission, data):
-
-        image_submission = data.get('image_submission', None)
-        file_submission = data.get('file_submission', None)
-        link_submission = data.get('link_submission', None)
-
-        if type_of_submission == "LINK":
-            if image_submission or file_submission:
-                raise serializers.ValidationError("Type of submission is LINK, image and file not allowed")
-        
-        elif type_of_submission == "FILE":
-            if image_submission or link_submission:
-                raise serializers.ValidationError("Type of submission is FILE, image and link not allowed")
-        
-        elif type_of_submission == "IMG":
-            if link_submission or file_submission:
-                raise serializers.ValidationError("Type of  is IMG, link and file not allowed")
-        
-        return True
-
-
-
-    def validate(self, attrs):
-
-        type_of_submission = attrs.get('type_of_submission', None)
-
-        if not self.validate_submission_type(type_of_submission, attrs):
-        
-            raise serializers.ValidationError("Invalid type_of_submission")
-        
-        return attrs
-
-
-                
+      
     def create(self, validated_data):
-
+        print(validated_data)
         hackathon = validated_data['hackathon']
         start_datetime = convert_datetime_to_str(hackathon.start_datetime)
         end_datetime = convert_datetime_to_str(hackathon.end_datetime)
@@ -81,9 +50,6 @@ class SubmissionSerializer(serializers.ModelSerializer):
 
         type_of_submission = hackathon.type_of_submission
         validated_data['type_of_submission'] = type_of_submission
-
-        if not self.validate_submission_type(type_of_submission, validated_data):
-            raise serializers.ValidationError("submission type invalid")
 
         if current_datetime_str > end_datetime:
             raise serializers.ValidationError(
