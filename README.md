@@ -47,4 +47,5 @@ Start the server
   python manage.py collectstatic
   python manage.py runserver
 ```
-
+## Related Gists
+Link: https://gist.github.com/krish-patel1003/c9064058bdf99831a37d1b97d4e1e533
