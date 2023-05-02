@@ -9,8 +9,6 @@ from enrollments.models import Enrollment
 from submissions.utils import hackathon_submission_image_path
 import os
 
-IMG_SUBMISSION_PATH = hackathon_submission_image_path("image")
-FILE_SUBMISSION_PATH = hackathon_submission_image_path("file")
 
 def submission_path(instance, filename):
         file_path = os.path.join(f"hackathon_submission/{instance.submission_type}", filename)
