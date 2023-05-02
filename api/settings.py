@@ -69,6 +69,7 @@ MIDDLEWARE = [
 
     #
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'api.urls'

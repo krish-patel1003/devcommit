@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from enrollments.models import Enrollment
 from submissions.models import Submission
+from hackathons.models import Hackathon
 from submissions.serializers import SubmissionSerializer
 from submissions.permissions import IsUserOwnerOrReadOnly
 
@@ -46,7 +47,6 @@ class SubmissionViewSet(ModelViewSet):
         data = request.data
         user = request.user
         serializer = self.serializer_class(data=data)
-        print(type(data.get("submission")))
        
         if serializer.is_valid():
 
