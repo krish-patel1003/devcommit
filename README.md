@@ -48,4 +48,5 @@ Start the server
   python manage.py runserver
 ```
 ## Related Gists
-Link: https://gist.github.com/krish-patel1003/c9064058bdf99831a37d1b97d4e1e533
+Join query optimization - Django: https://gist.github.com/krish-patel1003/c9064058bdf99831a37d1b97d4e1e533
+Input validation optmization - Django: https://gist.github.com/krish-patel1003/06afb31d1a07fa2027d33357cd40e28e
