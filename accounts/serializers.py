@@ -39,18 +39,6 @@ class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=255, read_only=True)
     password = serializers.CharField(min_length=1, write_only=True)
     tokens = serializers.SerializerMethodField()
-
-    def get_tokens(self, instance):
-        '''
-        returns the object returned by tokens method in AUTH_USER_MODEL
-        '''
-
-        user = User.objects.get(email=instance['email'])
-        
-        return {
-            "refresh_token": user.tokens()['refresh_token'],
-            "access_token": user.tokens()["access_token"]
-        }
     
     
     class Meta:
